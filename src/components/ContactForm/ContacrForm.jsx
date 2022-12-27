@@ -8,7 +8,7 @@ import { Form, Label, Input, Button } from './ContactForm.styled';
 export function ContactForm({ contacts }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [addContact, { isSuccess, isError, isLoading: isAdding, error }] =
+  const [addContact, { isSuccess, isLoading: isAdding, error }] =
     useAddContactMutation();
 
   // console.log('isSuccess', isSuccess);
