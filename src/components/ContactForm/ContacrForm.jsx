@@ -11,8 +11,7 @@ export function ContactForm() {
   const { data: contacts } = useFetchContactsQuery();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [addContact, { isLoading: isAdding, isSuccess, isError }] =
-    useAddContactMutation();
+  const [addContact, { isLoading: isAdding }] = useAddContactMutation();
 
   const handleChange = e => {
     const { name, value } = e.target;
