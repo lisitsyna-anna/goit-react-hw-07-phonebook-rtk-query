@@ -1,19 +1,19 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useAddContactMutation } from 'redux/constactsSlice';
+import {
+  useAddContactMutation,
+  useFetchContactsQuery,
+} from 'redux/constactsSlice';
 import { Notify } from 'notiflix';
 import { PulseLoader } from 'react-spinners';
 import { Form, Label, Input, Button } from './ContactForm.styled';
 
-export function ContactForm({ contacts }) {
+export function ContactForm() {
+  const { data: contacts } = useFetchContactsQuery();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [addContact, { isLoading: isAdding }] = useAddContactMutation();
+  const [addContact, { isLoading: isAdding, isSuccess, isError }] =
+    useAddContactMutation();
 
-  // console.log('isSuccess', isSuccess);
-  // console.log('isError', isError);
-  // console.log('isLoading', isLoading);
-  // console.log('error', error);
   const handleChange = e => {
     const { name, value } = e.target;
     switch (name) {
@@ -45,12 +45,12 @@ export function ContactForm({ contacts }) {
       Notify.failure(`${phone} is alredy in contacts`);
       return;
     }
-
-    try {
-      await addContact(name, phone);
+    await addContact({ name, phone });
+    if (isSuccess) {
       Notify.success('Contact added!');
-    } catch (error) {
-      Notify.failure(' Something went wrong...Try reloading the page');
+    }
+    if (isError) {
+      Notify.failure('Somethinf went wrong... Try reload the page');
     }
 
     setName('');
@@ -96,14 +96,3 @@ export function ContactForm({ contacts }) {
     </Form>
   );
 }
-
-ContactForm.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};

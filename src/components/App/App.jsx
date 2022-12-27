@@ -35,7 +35,7 @@ export function App() {
           <PageTitle>Phonebook</PageTitle>
 
           <Container as="section" pt={30} pb={30}>
-            {contacts && <ContactForm contacts={contacts} />}
+            {contacts && <ContactForm />}
           </Container>
 
           <Container as="section" pt={30} pb={30}>
@@ -51,7 +51,7 @@ export function App() {
                 }}
               />
             )}
-            {showConatctList && <ContactList contacts={contacts} />}
+            {showConatctList && <ContactList />}
             {showEmptyBook && (
               <Text>Your phonebook is empty. Please add contact.</Text>
             )}

@@ -30,7 +30,7 @@ export const ContactItem = ({ id, name, phone }) => {
         disabled={isDeleting}
       >
         Delete
-        {isDeleting && <PulseLoader size={2} color="#fff" margin={0} />}
+        {isDeleting && <PulseLoader size={2} color="#fff" margin={1} />}
       </Button>
     </>
   );

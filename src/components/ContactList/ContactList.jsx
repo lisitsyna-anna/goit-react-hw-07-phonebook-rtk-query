@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectFilter } from 'redux/selectors';
-
+import { useFetchContactsQuery } from 'redux/constactsSlice';
 import { ContactItem } from 'components/ContactItem';
 import { List, Item, FailureText } from './ContactList.styled';
 
-export const ContactList = ({ contacts }) => {
+export const ContactList = () => {
+  const { data: contacts } = useFetchContactsQuery();
   const filter = useSelector(selectFilter);
 
   const getVisibleContacts = () => {
@@ -33,15 +33,4 @@ export const ContactList = ({ contacts }) => {
       </List>
     </>
   );
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 };
