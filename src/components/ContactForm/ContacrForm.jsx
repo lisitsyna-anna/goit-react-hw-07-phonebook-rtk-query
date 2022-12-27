@@ -30,7 +30,7 @@ export function ContactForm() {
     }
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     const isNameAdded = contacts.some(
@@ -45,14 +45,12 @@ export function ContactForm() {
       Notify.failure(`${phone} is alredy in contacts`);
       return;
     }
-    await addContact({ name, phone });
-    if (isSuccess) {
-      Notify.success('Contact added!');
-    }
-    if (isError) {
-      Notify.failure('Somethinf went wrong... Try reload the page');
-    }
-
+    addContact({ name, phone })
+      .unwrap()
+      .then(() => Notify.success('Contact added!'))
+      .catch(() =>
+        Notify.failure('Somethinf went wrong... Try reload the page')
+      );
     setName('');
     setPhone('');
   };

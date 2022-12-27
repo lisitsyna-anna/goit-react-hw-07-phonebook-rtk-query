@@ -8,27 +8,24 @@ import { StyledText } from './ContactItem.styled';
 import { Notify } from 'notiflix';
 
 export const ContactItem = ({ id, name, phone }) => {
-  const [deleteContact, { isLoading: isDeleting, isSuccess, isError }] =
-    useDeleteContactMutation();
+  const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
 
-  if (isSuccess) {
-    Notify.success('Contact deleted!');
-  }
+  const handleDelete = () => {
+    deleteContact(id)
+      .unwrap()
+      .then(() => Notify.success('Contact deleted!'))
+      .catch(() =>
+        Notify.failure('Somethinf went wrong... Try reload the page')
+      );
+  };
 
-  if (isError) {
-    Notify.failure('Somethinf went wrong... Try reload the page');
-  }
   return (
     <>
       <StyledText>
         <HiPhone size={16} />
         <b>{name}:</b> {phone}
       </StyledText>
-      <Button
-        type="button"
-        onClick={() => deleteContact(id)}
-        disabled={isDeleting}
-      >
+      <Button type="button" onClick={handleDelete} disabled={isDeleting}>
         Delete
         {isDeleting && <PulseLoader size={2} color="#fff" margin={1} />}
       </Button>
